@@ -3,6 +3,13 @@
 #include <string>
 #include <random>
 #include <stack>
+
+#define DENSITY 5
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
+#define YELLOW  "\033[33m"
+#define UNK     "\033[34m"
+
 using namespace std;
 
 vector<Point> trash;
@@ -134,8 +141,8 @@ for(int i = 0; i < onepath.size(); i++)
                 } else if(maze2[i][j]==0){
                     cout<<GREEN<<maze2[i][j];
                 } else if(maze2[i][j]==2){
-                    cout<<UNK<<maze2[i][j];
-                } else cout<<UNK<<maze2[i][j];
+                    cout<<BLUE<<maze2[i][j];
+                } else cout<<BLUE<<maze2[i][j];
             }
             cout<<endl;
         }
@@ -148,31 +155,13 @@ void clear(stack<Point>&a){
     }
 }
 
-vector<vector<int> > generate(int width, int height)
-{
-    mt19937 rng;
-    rng.seed(random_device()());
-
-    default_random_engine fixed;
-    uniform_int_distribution<int> distribution(0, 9);
-
-    vector<vector<int> > maze(height, vector<int>(width));
-    for(int i = 0; i < height; i++)
-    {
-        for(int j = 0; j < width; j++)
-        {
-            maze[i][j] = distribution(rng) < DENSITY ? 1 : 0;//fixed or rng
-        }
-    }
-    return maze;
-}
-
 bool isNeib(Point a, Point b){
     int res = (a.X-b.X)*(a.X-b.X) + (a.Y-b.Y)*(a.Y-b.Y);
     if(res<=2) return true;
     else return false;
 }
 
+/*---------shorten----------------*/
 bool reach(vector<Point> onepath,int i, int height, int width){
     vector<Point> de_path;
     for(int j = 0; j < onepath.size();j++){
